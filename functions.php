@@ -717,3 +717,210 @@ function nhn_partners_customize_register($wp_customize) {
     
 }
 add_action('customize_register', 'nhn_partners_customize_register');
+
+// 
+// Register Contact Us Section in Customizer
+function nhn_contact_customize_register($wp_customize) {
+
+    // Section for Contact Us
+    $wp_customize->add_section('contact_us_section', array(
+        'title' => __('Contact Us Section', 'nhn'),
+        'priority' => 70,
+        'description' => __('Manage the Contact Us section content', 'nhn'),
+    ));
+
+    // Subheading
+    $wp_customize->add_setting('contact_subheading', array(
+        'default' => 'Help With Featured Cause',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('contact_subheading', array(
+        'label' => __('Subheading', 'nhn'),
+        'section' => 'contact_us_section',
+        'type' => 'text',
+    ));
+
+    // Heading
+    $wp_customize->add_setting('contact_heading', array(
+        'default' => 'Contact Us',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('contact_heading', array(
+        'label' => __('Heading', 'nhn'),
+        'section' => 'contact_us_section',
+        'type' => 'text',
+    ));
+}
+
+add_action('customize_register', 'nhn_contact_customize_register');
+
+
+
+// Register 2 Locations in Customizer
+function nhn_contact_locations_customize($wp_customize) {
+
+    $wp_customize->add_section('contact_locations_section', array(
+        'title' => __('Contact Locations', 'nhn'),
+        'priority' => 31,
+    ));
+
+    // ----- Head Office -----
+    $wp_customize->add_setting('head_office_title', array(
+        'default' => 'Head Office',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('head_office_title', array(
+        'label' => __('Head Office Title', 'nhn'),
+        'section' => 'contact_locations_section',
+        'type' => 'text',
+    ));
+
+    $wp_customize->add_setting('head_office_address', array(
+        'default' => "123 Main Street,\nKathmandu, Nepal",
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ));
+    $wp_customize->add_control('head_office_address', array(
+        'label' => __('Head Office Address', 'nhn'),
+        'section' => 'contact_locations_section',
+        'type' => 'textarea',
+    ));
+
+    $wp_customize->add_setting('head_office_phone', array(
+        'default' => '+977-1-1234567',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('head_office_phone', array(
+        'label' => __('Head Office Phone', 'nhn'),
+        'section' => 'contact_locations_section',
+        'type' => 'text',
+    ));
+
+    $wp_customize->add_setting('head_office_email', array(
+        'default' => 'info@yourdomain.com',
+        'sanitize_callback' => 'sanitize_email',
+    ));
+    $wp_customize->add_control('head_office_email', array(
+        'label' => __('Head Office Email', 'nhn'),
+        'section' => 'contact_locations_section',
+        'type' => 'email',
+    ));
+
+    // ----- Branch Office -----
+    $wp_customize->add_setting('branch_office_title', array(
+        'default' => 'Branch Office',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('branch_office_title', array(
+        'label' => __('Branch Office Title', 'nhn'),
+        'section' => 'contact_locations_section',
+        'type' => 'text',
+    ));
+
+    $wp_customize->add_setting('branch_office_address', array(
+        'default' => "456 City Road,\nPokhara, Nepal",
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ));
+    $wp_customize->add_control('branch_office_address', array(
+        'label' => __('Branch Office Address', 'nhn'),
+        'section' => 'contact_locations_section',
+        'type' => 'textarea',
+    ));
+
+    $wp_customize->add_setting('branch_office_phone', array(
+        'default' => '+977-61-7654321',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('branch_office_phone', array(
+        'label' => __('Branch Office Phone', 'nhn'),
+        'section' => 'contact_locations_section',
+        'type' => 'text',
+    ));
+
+    $wp_customize->add_setting('branch_office_email', array(
+        'default' => 'contact@yourdomain.com',
+        'sanitize_callback' => 'sanitize_email',
+    ));
+    $wp_customize->add_control('branch_office_email', array(
+        'label' => __('Branch Office Email', 'nhn'),
+        'section' => 'contact_locations_section',
+        'type' => 'email',
+    ));
+}
+add_action('customize_register', 'nhn_contact_locations_customize');
+
+function nhn_footer_widgets() {
+    register_sidebar(array(
+        'name' => 'Footer 1',
+        'id' => 'footer-1',
+        'before_widget' => '<div class="footer-widget mb-4">',
+        'after_widget' => '</div>',
+        'before_title' => '<h5>',
+        'after_title' => '</h5>',
+    ));
+    register_sidebar(array(
+        'name' => 'Footer 2',
+        'id' => 'footer-2',
+        'before_widget' => '<div class="footer-widget mb-4">',
+        'after_widget' => '</div>',
+        'before_title' => '<h5>',
+        'after_title' => '</h5>',
+    ));
+    register_sidebar(array(
+        'name' => 'Footer 3',
+        'id' => 'footer-3',
+        'before_widget' => '<div class="footer-widget mb-4">',
+        'after_widget' => '</div>',
+        'before_title' => '<h5>',
+        'after_title' => '</h5>',
+    ));
+}
+add_action('widgets_init', 'nhn_footer_widgets');
+
+
+// ===== Contact Form 7 Integration =====
+
+// Check if CF7 is installed, if not prompt admin
+function mytheme_cf7_check() {
+    if (!is_plugin_active('contact-form-7/wp-contact-form-7.php')) {
+        add_action('admin_notices', function() {
+            echo '<div class="notice notice-warning is-dismissible">
+            <p><strong>Contact Form 7</strong> is not installed. Please install & activate <a href="' . admin_url('plugin-install.php?tab=search&s=contact+form+7') . '">Contact Form 7</a>.</p>
+            </div>';
+        });
+    }
+}
+add_action('admin_init', 'mytheme_cf7_check');
+
+
+// Create a default CF7 form on theme activation
+function mytheme_create_cf7_form() {
+    if (class_exists('WPCF7_ContactForm')) {
+        // Check if a form with this title already exists
+        $form_title = 'Contact Us';
+        $existing_forms = get_posts(array(
+            'post_type' => 'wpcf7_contact_form',
+            'title' => $form_title,
+            'posts_per_page' => 1,
+        ));
+
+        if (empty($existing_forms)) {
+            $form = WPCF7_ContactForm::get_template();
+            $form->set_title($form_title);
+            $form->set_properties(array(
+                'form' => '[text* your-name placeholder "Your Name"]<br>
+                           [email* your-email placeholder "Your Email"]<br>
+                           [textarea your-message placeholder "Your Message"]<br>
+                           [submit "Send"]',
+                'mail' => array(
+                    'subject' => 'New message from [your-name]',
+                    'recipient' => get_option('admin_email'),
+                    'sender' => '[your-name] <[your-email]>',
+                    'body' => "[your-name] <[your-email]> wrote:\n\n[your-message]",
+                ),
+            ));
+            $form->save();
+        }
+    }
+}
+add_action('after_switch_theme', 'mytheme_create_cf7_form');
+

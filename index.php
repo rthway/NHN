@@ -36,3 +36,12 @@ get_template_part('publications');
 get_template_part('partners');
 ?>
 <br><br>
+<?php
+// Include the mission template
+get_template_part('page-contact');
+?>
+<br><br>
+<?php
+// Include the footer   
+get_footer();
+?>
