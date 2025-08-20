@@ -206,7 +206,7 @@ function charity_customize_register_about($wp_customize) {
     // Section
     $wp_customize->add_section('about_front_section', array(
         'title'       => __('About Front Section', 'charity'),
-        'priority'    => 30,
+        'priority'    => 35,
         'description' => __('Edit the About Us section content here.', 'charity'),
     ));
 
@@ -363,7 +363,7 @@ function charity_mission_vision_customize_register($wp_customize) {
     // Section for Mission / Vision / Culture
     $wp_customize->add_section('mvc_section', [
         'title' => __('Mission / Vision / Culture', 'charity'),
-        'priority' => 30,
+        'priority' => 45,
     ]);
 
     // Header small text
@@ -456,7 +456,7 @@ function core_components_customize_register($wp_customize) {
     // Panel / Section
     $wp_customize->add_section('charity_core_components_section', array(
         'title'    => __('Core Components', 'nhn'),
-        'priority' => 35,
+        'priority' => 50,
     ));
 
     // Subtitle
@@ -572,7 +572,7 @@ add_action('init', 'nhn_register_publications_cpt');
 function nhn_publications_customize_register($wp_customize) {
     $wp_customize->add_section('nhn_publications_section', array(
         'title'    => __('Publications Section', 'nhn'),
-        'priority' => 40,
+        'priority' => 55,
     ));
 
     // Heading
@@ -660,3 +660,60 @@ function nhn_save_pdf_meta($post_id) {
     }
 }
 add_action('save_post', 'nhn_save_pdf_meta');
+
+
+
+// ===== Add Register Customizer settings for Partners =====
+// Register Customizer settings for Partners
+function nhn_partners_customize_register($wp_customize) {
+
+    // GET IN TOUCH button link
+    $wp_customize->add_setting('partner_button_link', array(
+        'default' => '#contact',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+
+    $wp_customize->add_control('partner_button_link', array(
+        'label' => __('GET IN TOUCH Button Link', 'nhn'),
+        'section' => 'partners_section',
+        'type' => 'url',
+    ));
+    // Section for Partners
+    $wp_customize->add_section('partners_section', array(
+        'title' => __('Partners Section', 'nhn'),
+        'priority' => 60,
+        'description' => 'Manage your supporting partners logos',
+    ));
+
+    // Number of partners
+    $wp_customize->add_setting('partners_count', array(
+        'default' => 4,
+        'sanitize_callback' => 'absint',
+    ));
+
+    $wp_customize->add_control('partners_count', array(
+        'label' => __('Number of Partner Logos', 'nhn'),
+        'section' => 'partners_section',
+        'type' => 'number',
+        'input_attrs' => array(
+            'min' => 1,
+            'max' => 20,
+        ),
+    ));
+
+    // Partner logos loop
+    $partners_count = get_theme_mod('partners_count', 4);
+    for ($i = 1; $i <= $partners_count; $i++) {
+        $wp_customize->add_setting("partner_logo_$i", array(
+            'sanitize_callback' => 'esc_url_raw',
+        ));
+
+        $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, "partner_logo_$i", array(
+            'label' => "Partner Logo $i",
+            'section' => 'partners_section',
+            'settings' => "partner_logo_$i",
+        )));
+    }
+    
+}
+add_action('customize_register', 'nhn_partners_customize_register');

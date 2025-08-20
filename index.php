@@ -30,3 +30,9 @@ get_template_part('core-components');
 get_template_part('publications');
 ?>
 <br><br>
+
+<?php
+// Include the mission template
+get_template_part('partners');
+?>
+<br><br>
