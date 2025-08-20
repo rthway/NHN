@@ -266,3 +266,90 @@ function charity_customize_register_about($wp_customize) {
     )));
 }
 add_action('customize_register', 'charity_customize_register_about');
+
+
+// Counter Section Customizer
+// This function adds settings and controls for the Counter section in the Customizer.
+// Counter Section Customizer
+function charity_customizer_counter_section($wp_customize) {
+    
+    // Section
+    $wp_customize->add_section('counter_section', array(
+        'title' => __('Counter Section', 'charity'),
+        'priority' => 40,
+        'description' => 'Manage counters and video section',
+    ));
+
+    // Video URL
+    $wp_customize->add_setting('counter_video_url', array(
+        'default' => 'https://www.youtube.com/watch?v=pNje3bWz7V8',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control('counter_video_url', array(
+        'label' => __('Intro Video URL', 'charity'),
+        'section' => 'counter_section',
+        'type' => 'url',
+    ));
+    $wp_customize->add_setting('counter_bg_image', array(
+        'default' => get_template_directory_uri() . '/images/BH_01.jpg',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'counter_bg_image', array(
+        'label' => __('Counter Section Background', 'charity'),
+        'section' => 'counter_section',
+    )));
+    $wp_customize->add_setting('counter_play_image', array(
+        'default' => get_template_directory_uri() . '/images/play.png',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'counter_play_image', array(
+        'label' => __('Counter Section Play Button', 'charity'),
+        'section' => 'counter_section', // same section as counters
+    )));
+
+    // Counters (Repeatable 4 counters)
+    for ($i = 1; $i <= 4; $i++) {
+        $wp_customize->add_setting("counter_icon_$i", array(
+            'default' => get_template_directory_uri() . "/images/icon-$i.svg",
+            'sanitize_callback' => 'esc_url_raw',
+        ));
+        $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, "counter_icon_$i", array(
+            'label' => "Counter $i Icon",
+            'section' => 'counter_section',
+        )));
+
+        $wp_customize->add_setting("counter_number_$i", array(
+            'default' => '100',
+            'sanitize_callback' => 'sanitize_text_field',
+        ));
+        $wp_customize->add_control("counter_number_$i", array(
+            'label' => "Counter $i Number",
+            'section' => 'counter_section',
+            'type' => 'text',
+        ));
+
+        $wp_customize->add_setting("counter_suffix_$i", array(
+            'default' => '',
+            'sanitize_callback' => 'sanitize_text_field',
+        ));
+        $wp_customize->add_control("counter_suffix_$i", array(
+            'label' => "Counter $i Suffix (e.g., K, M)",
+            'section' => 'counter_section',
+            'type' => 'text',
+        ));
+
+        $wp_customize->add_setting("counter_text_$i", array(
+            'default' => "Counter $i Description",
+            'sanitize_callback' => 'sanitize_textarea_field',
+        ));
+        $wp_customize->add_control("counter_text_$i", array(
+            'label' => "Counter $i Text",
+            'section' => 'counter_section',
+            'type' => 'textarea',
+        ));
+    }
+
+}
+add_action('customize_register', 'charity_customizer_counter_section');

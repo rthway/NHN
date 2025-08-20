@@ -7,6 +7,11 @@ get_template_part('sliders');
 ?>
 
 <?php
-// Include the slider template
+// Include the about-us template
 get_template_part('about-us');
+?>
+
+<?php
+// Include the counter template
+get_template_part('counter-section');
 ?>
