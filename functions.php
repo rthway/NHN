@@ -195,3 +195,74 @@ function charity_slider_customizer($wp_customize) {
     }
 }
 add_action('customize_register', 'charity_slider_customizer');
+
+
+
+// Customize About Front Section
+// This function adds settings and controls for the About Front section in the Customizer.
+// Register About-Front section in Customizer
+function charity_customize_register_about($wp_customize) {
+
+    // Section
+    $wp_customize->add_section('about_front_section', array(
+        'title'       => __('About Front Section', 'charity'),
+        'priority'    => 30,
+        'description' => __('Edit the About Us section content here.', 'charity'),
+    ));
+
+    // Subtitle
+    $wp_customize->add_setting('about_front_subtitle', array(
+        'default'           => 'WE PUT OUR PATIENT FIRST',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('about_front_subtitle', array(
+        'label'    => __('Subtitle', 'charity'),
+        'section'  => 'about_front_section',
+        'type'     => 'text',
+    ));
+
+    // Title
+    $wp_customize->add_setting('about_front_title', array(
+        'default'           => 'ABOUT US',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('about_front_title', array(
+        'label'    => __('Title', 'charity'),
+        'section'  => 'about_front_section',
+        'type'     => 'text',
+    ));
+
+    // Organization Name
+    $wp_customize->add_setting('about_front_org_name', array(
+        'default'           => 'Nyaya Health Nepal',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('about_front_org_name', array(
+        'label'    => __('Organization Name', 'charity'),
+        'section'  => 'about_front_section',
+        'type'     => 'text',
+    ));
+
+    // Description
+    $wp_customize->add_setting('about_front_description', array(
+        'default'           => 'Nyaya Health Nepal (NHN) is a non-profit organization...',
+        'sanitize_callback' => 'wp_kses_post',
+    ));
+    $wp_customize->add_control('about_front_description', array(
+        'label'    => __('Description', 'charity'),
+        'section'  => 'about_front_section',
+        'type'     => 'textarea',
+    ));
+
+    // Image
+    $wp_customize->add_setting('about_front_image', array(
+        'default'           => get_template_directory_uri() . '/images/about-style2_image1.jpg',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'about_front_image', array(
+        'label'    => __('Image', 'charity'),
+        'section'  => 'about_front_section',
+        'settings' => 'about_front_image',
+    )));
+}
+add_action('customize_register', 'charity_customize_register_about');
