@@ -121,3 +121,77 @@ function nhn_customize_register($wp_customize) {
     ));
 }
 add_action('customize_register', 'nhn_customize_register');
+
+// Slider Customizer
+// This function adds settings and controls for a slider section in the Customizer. 
+function charity_slider_customizer($wp_customize) {
+    // Section for sliders
+    $wp_customize->add_section('charity_slider_section', array(
+        'title'    => __('Slider Section', 'your-textdomain'),
+        'priority' => 30,
+    ));
+
+    // Repeatable slides (for simplicity, let's do 3)
+    for ($i = 1; $i <= 3; $i++) {
+        // Slide image
+        $wp_customize->add_setting("slide_{$i}_image");
+        $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, "slide_{$i}_image", array(
+            'label'    => __("Slide {$i} Image", 'your-textdomain'),
+            'section'  => 'charity_slider_section',
+            'settings' => "slide_{$i}_image",
+        )));
+
+        // Slide subtitle (h6)
+        $wp_customize->add_setting("slide_{$i}_subtitle", array('default' => ''));
+        $wp_customize->add_control("slide_{$i}_subtitle", array(
+            'label'   => __("Slide {$i} Subtitle", 'your-textdomain'),
+            'section' => 'charity_slider_section',
+            'type'    => 'text',
+        ));
+
+        // Slide title (h1)
+        $wp_customize->add_setting("slide_{$i}_title", array('default' => ''));
+        $wp_customize->add_control("slide_{$i}_title", array(
+            'label'   => __("Slide {$i} Title", 'your-textdomain'),
+            'section' => 'charity_slider_section',
+            'type'    => 'text',
+        ));
+
+        // Slide description (p)
+        $wp_customize->add_setting("slide_{$i}_description", array('default' => ''));
+        $wp_customize->add_control("slide_{$i}_description", array(
+            'label'   => __("Slide {$i} Description", 'your-textdomain'),
+            'section' => 'charity_slider_section',
+            'type'    => 'textarea',
+        ));
+
+        // Slide button 1
+        $wp_customize->add_setting("slide_{$i}_btn1_text", array('default' => ''));
+        $wp_customize->add_control("slide_{$i}_btn1_text", array(
+            'label'   => __("Slide {$i} Button 1 Text", 'your-textdomain'),
+            'section' => 'charity_slider_section',
+            'type'    => 'text',
+        ));
+        $wp_customize->add_setting("slide_{$i}_btn1_url", array('default' => '#'));
+        $wp_customize->add_control("slide_{$i}_btn1_url", array(
+            'label'   => __("Slide {$i} Button 1 URL", 'your-textdomain'),
+            'section' => 'charity_slider_section',
+            'type'    => 'url',
+        ));
+
+        // Slide button 2
+        $wp_customize->add_setting("slide_{$i}_btn2_text", array('default' => ''));
+        $wp_customize->add_control("slide_{$i}_btn2_text", array(
+            'label'   => __("Slide {$i} Button 2 Text", 'your-textdomain'),
+            'section' => 'charity_slider_section',
+            'type'    => 'text',
+        ));
+        $wp_customize->add_setting("slide_{$i}_btn2_url", array('default' => '#'));
+        $wp_customize->add_control("slide_{$i}_btn2_url", array(
+            'label'   => __("Slide {$i} Button 2 URL", 'your-textdomain'),
+            'section' => 'charity_slider_section',
+            'type'    => 'url',
+        ));
+    }
+}
+add_action('customize_register', 'charity_slider_customizer');
