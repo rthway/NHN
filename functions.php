@@ -528,3 +528,135 @@ function core_components_customize_register($wp_customize) {
     }
 }
 add_action('customize_register', 'core_components_customize_register');
+
+
+
+
+// ===== Register Custom Post Type: Publications =====
+function nhn_register_publications_cpt() {
+    $labels = array(
+        'name'               => __('Publications', 'nhn'),
+        'singular_name'      => __('Publication', 'nhn'),
+        'menu_name'          => __('Publications', 'nhn'),
+        'name_admin_bar'     => __('Publication', 'nhn'),
+        'add_new'            => __('Add New', 'nhn'),
+        'add_new_item'       => __('Add New Publication', 'nhn'),
+        'new_item'           => __('New Publication', 'nhn'),
+        'edit_item'          => __('Edit Publication', 'nhn'),
+        'view_item'          => __('View Publication', 'nhn'),
+        'all_items'          => __('All Publications', 'nhn'),
+        'search_items'       => __('Search Publications', 'nhn'),
+        'not_found'          => __('No publications found.', 'nhn'),
+    );
+
+    $args = array(
+        'labels'             => $labels,
+        'public'             => true,
+        'publicly_queryable' => true,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'query_var'          => true,
+        'rewrite'            => array('slug' => 'publications'),
+        'capability_type'    => 'post',
+        'has_archive'        => true,
+        'hierarchical'       => false,
+        'menu_icon'          => 'dashicons-media-document',
+        'supports'           => array('title', 'editor', 'excerpt', 'thumbnail'),
+    );
+
+    register_post_type('publications', $args);
+}
+add_action('init', 'nhn_register_publications_cpt');
+
+// ===== Publications Section Customizer =====
+function nhn_publications_customize_register($wp_customize) {
+    $wp_customize->add_section('nhn_publications_section', array(
+        'title'    => __('Publications Section', 'nhn'),
+        'priority' => 40,
+    ));
+
+    // Heading
+    $wp_customize->add_setting('nhn_publications_heading', array(
+        'default'   => 'Our Publications',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_control('nhn_publications_heading', array(
+        'label'   => __('Section Heading', 'nhn'),
+        'section' => 'nhn_publications_section',
+        'type'    => 'text',
+    ));
+
+    // Subheading
+    $wp_customize->add_setting('nhn_publications_subheading', array(
+        'default'   => 'Latest reports, research and publications',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_control('nhn_publications_subheading', array(
+        'label'   => __('Section Subheading', 'nhn'),
+        'section' => 'nhn_publications_section',
+        'type'    => 'textarea',
+    ));
+}
+add_action('customize_register', 'nhn_publications_customize_register');
+
+
+// ===== Add PDF Upload for Publications =====
+function nhn_add_pdf_meta_box() {
+    add_meta_box(
+        'nhn_publication_pdf',
+        __('Publication PDF', 'nhn'),
+        'nhn_publication_pdf_callback',
+        'publications',
+        'side',
+        'default'
+    );
+}
+add_action('add_meta_boxes', 'nhn_add_pdf_meta_box');
+
+function nhn_publication_pdf_callback($post) {
+    wp_nonce_field('nhn_save_pdf_meta', 'nhn_pdf_meta_nonce');
+    $pdf_url = get_post_meta($post->ID, '_nhn_publication_pdf', true);
+    ?>
+    <p>
+        <label for="nhn_publication_pdf"><?php _e('Upload or paste PDF URL:', 'nhn'); ?></label>
+        <input type="text" name="nhn_publication_pdf" id="nhn_publication_pdf"
+               value="<?php echo esc_url($pdf_url); ?>" style="width:100%;" />
+    </p>
+    <p>
+        <input type="button" id="nhn_pdf_upload_btn" class="button" value="<?php _e('Upload PDF', 'nhn'); ?>" />
+    </p>
+    <script>
+    jQuery(document).ready(function($){
+        var mediaUploader;
+        $('#nhn_pdf_upload_btn').click(function(e){
+            e.preventDefault();
+            if (mediaUploader) {
+                mediaUploader.open();
+                return;
+            }
+            mediaUploader = wp.media.frames.file_frame = wp.media({
+                title: 'Choose PDF',
+                button: { text: 'Select PDF' },
+                multiple: false
+            });
+            mediaUploader.on('select', function(){
+                var attachment = mediaUploader.state().get('selection').first().toJSON();
+                $('#nhn_publication_pdf').val(attachment.url);
+            });
+            mediaUploader.open();
+        });
+    });
+    </script>
+    <?php
+}
+
+// Save PDF Meta
+function nhn_save_pdf_meta($post_id) {
+    if (!isset($_POST['nhn_pdf_meta_nonce']) || !wp_verify_nonce($_POST['nhn_pdf_meta_nonce'], 'nhn_save_pdf_meta')) {
+        return;
+    }
+    if (array_key_exists('nhn_publication_pdf', $_POST)) {
+        update_post_meta($post_id, '_nhn_publication_pdf', esc_url_raw($_POST['nhn_publication_pdf']));
+    }
+}
+add_action('save_post', 'nhn_save_pdf_meta');

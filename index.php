@@ -25,3 +25,8 @@ get_template_part('mission-section');
 get_template_part('core-components');
 ?>
 <br><br>
+<?php
+// Include the mission template
+get_template_part('publications');
+?>
+<br><br>
