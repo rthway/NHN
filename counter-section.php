@@ -56,3 +56,4 @@ $play_image = get_theme_mod('counter_play_image', get_template_directory_uri() .
         </div>
     </div>
 </section>
+<br><br>

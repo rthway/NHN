@@ -353,3 +353,97 @@ function charity_customizer_counter_section($wp_customize) {
 
 }
 add_action('customize_register', 'charity_customizer_counter_section');
+
+
+// Mission / Vision / Culture Customizer
+// This function adds settings and controls for the Mission, Vision, and Culture section in the Customizer.
+// Mission / Vision / Culture Customizer
+function charity_mission_vision_customize_register($wp_customize) {
+
+    // Section for Mission / Vision / Culture
+    $wp_customize->add_section('mvc_section', [
+        'title' => __('Mission / Vision / Culture', 'charity'),
+        'priority' => 30,
+    ]);
+
+    // Header small text
+    $wp_customize->add_setting('mvc_header_small', [
+        'default' => 'QUALITY HEALTHCARE FOR ALL',
+        'sanitize_callback' => 'sanitize_text_field',
+    ]);
+    $wp_customize->add_control('mvc_header_small', [
+        'label' => __('Header small text', 'charity'),
+        'section' => 'mvc_section',
+        'type' => 'text',
+    ]);
+
+    // Header title
+    $wp_customize->add_setting('mvc_header_title', [
+        'default' => 'OUR VISION, MISSION & CULTURE',
+        'sanitize_callback' => 'sanitize_text_field',
+    ]);
+    $wp_customize->add_control('mvc_header_title', [
+        'label' => __('Header title', 'charity'),
+        'section' => 'mvc_section',
+        'type' => 'text',
+    ]);
+
+    // Vision
+    $wp_customize->add_setting('mvc_vision', [
+        'default' => 'Quality healthcare for all.',
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ]);
+    $wp_customize->add_control('mvc_vision', [
+        'label' => __('Vision', 'charity'),
+        'section' => 'mvc_section',
+        'type' => 'textarea',
+    ]);
+
+    // Mission
+    $wp_customize->add_setting('mvc_mission', [
+        'default' => 'To improve healthcare for underserved populations by collaborating with the government of Nepal.',
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ]);
+    $wp_customize->add_control('mvc_mission', [
+        'label' => __('Mission', 'charity'),
+        'section' => 'mvc_section',
+        'type' => 'textarea',
+    ]);
+
+    // Culture items (4 items)
+    for ($i = 1; $i <= 4; $i++) {
+        $wp_customize->add_setting("mvc_culture_title_$i", [
+            'default' => '',
+            'sanitize_callback' => 'sanitize_text_field',
+        ]);
+        $wp_customize->add_control("mvc_culture_title_$i", [
+            'label' => __("Culture $i Title", 'charity'),
+            'section' => 'mvc_section',
+            'type' => 'text',
+        ]);
+
+        $wp_customize->add_setting("mvc_culture_desc_$i", [
+            'default' => '',
+            'sanitize_callback' => 'sanitize_textarea_field',
+        ]);
+        $wp_customize->add_control("mvc_culture_desc_$i", [
+            'label' => __("Culture $i Description", 'charity'),
+            'section' => 'mvc_section',
+            'type' => 'textarea',
+        ]);
+    }
+
+    // Left image
+    $wp_customize->add_setting('mvc_left_image', [
+        'default' => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ]);
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'mvc_left_image', [
+        'label' => __('Left Image', 'charity'),
+        'section' => 'mvc_section',
+        'settings' => 'mvc_left_image',
+    ]));
+
+    
+}
+add_action('customize_register', 'charity_mission_vision_customize_register');

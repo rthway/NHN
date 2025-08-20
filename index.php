@@ -15,3 +15,7 @@ get_template_part('about-us');
 // Include the counter template
 get_template_part('counter-section');
 ?>
+<?php
+// Include the mission template
+get_template_part('mission-section');
+?>
