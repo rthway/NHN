@@ -19,3 +19,9 @@ get_template_part('counter-section');
 // Include the mission template
 get_template_part('mission-section');
 ?>
+
+<?php
+// Include the mission template
+get_template_part('core-components');
+?>
+<br><br>

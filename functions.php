@@ -447,3 +447,84 @@ function charity_mission_vision_customize_register($wp_customize) {
     
 }
 add_action('customize_register', 'charity_mission_vision_customize_register');
+
+// Core Components Customizer
+// This function adds settings and controls for the Core Components section in the Customizer.
+// Core Components Customizer
+
+function core_components_customize_register($wp_customize) {
+    // Panel / Section
+    $wp_customize->add_section('charity_core_components_section', array(
+        'title'    => __('Core Components', 'nhn'),
+        'priority' => 35,
+    ));
+
+    // Subtitle
+    $wp_customize->add_setting('charity_core_subtitle', array(
+        'default'   => 'Core Components of NHN',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_control('charity_core_subtitle', array(
+        'label'   => __('Subtitle', 'nhn'),
+        'section' => 'charity_core_components_section',
+        'type'    => 'text',
+    ));
+
+    // Title
+    $wp_customize->add_setting('charity_core_title', array(
+        'default'   => 'OUR MODELS',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_control('charity_core_title', array(
+        'label'   => __('Main Title', 'nhn'),
+        'section' => 'charity_core_components_section',
+        'type'    => 'text',
+    ));
+
+    // Loop for 3 models
+    for ($i = 1; $i <= 3; $i++) {
+        // Title
+        $wp_customize->add_setting("charity_core_model_title_$i", array(
+            'default'   => "Model Title $i",
+            'transport' => 'refresh',
+        ));
+        $wp_customize->add_control("charity_core_model_title_$i", array(
+            'label'   => __("Model $i Title", 'nhn'),
+            'section' => 'charity_core_components_section',
+            'type'    => 'text',
+        ));
+
+        // Description
+        $wp_customize->add_setting("charity_core_model_desc_$i", array(
+            'default'   => "Model $i short description",
+            'transport' => 'refresh',
+        ));
+        $wp_customize->add_control("charity_core_model_desc_$i", array(
+            'label'   => __("Model $i Description", 'nhn'),
+            'section' => 'charity_core_components_section',
+            'type'    => 'textarea',
+        ));
+
+        // Link
+        $wp_customize->add_setting("charity_core_model_link_$i", array(
+            'default'   => "#",
+            'transport' => 'refresh',
+        ));
+        $wp_customize->add_control("charity_core_model_link_$i", array(
+            'label'   => __("Model $i Link", 'nhn'),
+            'section' => 'charity_core_components_section',
+            'type'    => 'url',
+        ));
+
+        // Image
+        $wp_customize->add_setting("charity_core_model_image_$i", array(
+            'default'   => '',
+            'transport' => 'refresh',
+        ));
+        $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, "charity_core_model_image_$i", array(
+            'label'   => __("Model $i Image", 'nhn'),
+            'section' => 'charity_core_components_section',
+        )));
+    }
+}
+add_action('customize_register', 'core_components_customize_register');
