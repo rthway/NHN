@@ -924,3 +924,160 @@ function mytheme_create_cf7_form() {
 }
 add_action('after_switch_theme', 'mytheme_create_cf7_form');
 
+
+
+// ===== About Page Customizer Settings =====
+/**
+ * NHN Theme Customizer - About Page Settings
+ */
+function nhn_customize_register_about( $wp_customize ) {
+
+    // === Panel: About Page Settings ===
+    $wp_customize->add_panel('nhn_about_panel', array(
+        'title'       => __('About Page Settings', 'nhn'),
+        'priority'    => 20,
+    ));
+
+    // === Section: About Content ===
+    $wp_customize->add_section('nhn_about_section', array(
+        'title'    => __('About Content', 'nhn'),
+        'panel'    => 'nhn_about_panel',
+    ));
+
+    // Sub Title
+    $wp_customize->add_setting('nhn_about_subtitle', array(
+        'default'   => 'Help With Featured Cause',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_control('nhn_about_subtitle', array(
+        'label'    => __('Sub Title', 'nhn'),
+        'section'  => 'nhn_about_section',
+        'type'     => 'text',
+    ));
+
+    // Main Title
+    $wp_customize->add_setting('nhn_about_title', array(
+        'default'   => 'Quality Healthcare In Rural Areas Our Priority',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_control('nhn_about_title', array(
+        'label'    => __('Main Title', 'nhn'),
+        'section'  => 'nhn_about_section',
+        'type'     => 'textarea',
+    ));
+
+    // Description
+    $wp_customize->add_setting('nhn_about_desc', array(
+        'default'   => 'Nyaya Health Nepal (NHN) is a non-profit organization dedicated to strengthening healthcare access for underserved communities of rural Nepal since 2008.',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_control('nhn_about_desc', array(
+        'label'    => __('Description', 'nhn'),
+        'section'  => 'nhn_about_section',
+        'type'     => 'textarea',
+    ));
+
+    // Right Side Image
+    $wp_customize->add_setting('nhn_about_image', array(
+        'default'   => get_template_directory_uri() . '/images/BH_01.jpg',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'nhn_about_image', array(
+        'label'    => __('Right Side Image', 'nhn'),
+        'section'  => 'nhn_about_section',
+    )));
+
+    // === Counter 1 ===
+    $wp_customize->add_setting('nhn_counter1_icon', array(
+        'default' => 'https://loveicon.smartdemowp.com/wp-content/uploads/2021/06/world.png',
+    ));
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'nhn_counter1_icon', array(
+        'label'    => __('Counter 1 Icon', 'nhn'),
+        'section'  => 'nhn_about_section',
+    )));
+
+    $wp_customize->add_setting('nhn_counter1_number', array(
+        'default' => '1.3',
+    ));
+    $wp_customize->add_control('nhn_counter1_number', array(
+        'label'   => __('Counter 1 Number', 'nhn'),
+        'section' => 'nhn_about_section',
+        'type'    => 'text',
+    ));
+
+    $wp_customize->add_setting('nhn_counter1_suffix', array(
+        'default' => 'k',
+    ));
+    $wp_customize->add_control('nhn_counter1_suffix', array(
+        'label'   => __('Counter 1 Suffix', 'nhn'),
+        'section' => 'nhn_about_section',
+        'type'    => 'text',
+    ));
+
+    $wp_customize->add_setting('nhn_counter1_title', array(
+        'default' => 'Patient Treatments',
+    ));
+    $wp_customize->add_control('nhn_counter1_title', array(
+        'label'   => __('Counter 1 Title', 'nhn'),
+        'section' => 'nhn_about_section',
+        'type'    => 'text',
+    ));
+
+    $wp_customize->add_setting('nhn_counter1_desc', array(
+        'default' => 'We have already treated 1.3M patients across Nepal.',
+    ));
+    $wp_customize->add_control('nhn_counter1_desc', array(
+        'label'   => __('Counter 1 Description', 'nhn'),
+        'section' => 'nhn_about_section',
+        'type'    => 'textarea',
+    ));
+
+    // === Counter 2 ===
+    $wp_customize->add_setting('nhn_counter2_icon', array(
+        'default' => 'https://loveicon.smartdemowp.com/wp-content/uploads/2021/06/doller.png',
+    ));
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'nhn_counter2_icon', array(
+        'label'    => __('Counter 2 Icon', 'nhn'),
+        'section'  => 'nhn_about_section',
+    )));
+
+    $wp_customize->add_setting('nhn_counter2_number', array(
+        'default' => '5',
+    ));
+    $wp_customize->add_control('nhn_counter2_number', array(
+        'label'   => __('Counter 2 Number', 'nhn'),
+        'section' => 'nhn_about_section',
+        'type'    => 'text',
+    ));
+
+    $wp_customize->add_setting('nhn_counter2_suffix', array(
+        'default' => 'm',
+    ));
+    $wp_customize->add_control('nhn_counter2_suffix', array(
+        'label'   => __('Counter 2 Suffix', 'nhn'),
+        'section' => 'nhn_about_section',
+        'type'    => 'text',
+    ));
+
+    $wp_customize->add_setting('nhn_counter2_title', array(
+        'default' => 'Finished Projects',
+    ));
+    $wp_customize->add_control('nhn_counter2_title', array(
+        'label'   => __('Counter 2 Title', 'nhn'),
+        'section' => 'nhn_about_section',
+        'type'    => 'text',
+    ));
+
+    $wp_customize->add_setting('nhn_counter2_desc', array(
+        'default' => 'Donate money to build more healthcare and make primary care more accessible.',
+    ));
+    $wp_customize->add_control('nhn_counter2_desc', array(
+        'label'   => __('Counter 2 Description', 'nhn'),
+        'section' => 'nhn_about_section',
+        'type'    => 'textarea',
+    ));
+
+}
+add_action('customize_register', 'nhn_customize_register_about');
+
+

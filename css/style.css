@@ -1146,3 +1146,191 @@ button:hover {
   font-size: 14px;
   color: #666;
 }
+
+
+/* ======================= MOBILE FRIENDLY CSS ======================= */
+@media (max-width: 768px) {
+
+  /* GENERAL TYPOGRAPHY ADJUSTMENTS */
+  h1 { font-size: 2rem !important; }
+  h2 { font-size: 1.75rem !important; }
+  h3 { font-size: 1.5rem !important; }
+  h6 { font-size: 2em !important; }
+
+  body {
+    font-size: 14px;
+  }
+
+  /* NAVBAR & DONATE BUTTON */
+  .navbar-nav .nav-link {
+    font-size: 14px;
+    padding: 8px 10px;
+  }
+
+  .donate-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+
+  /* CAROUSEL */
+  .carousel-caption {
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    max-width: 90%;
+    text-align: center;
+  }
+
+  .carousel-caption h1 { font-size: 2rem; }
+  .carousel-caption h6 { font-size: 1.2rem; }
+  .carousel-caption p { font-size: 0.9rem; }
+  .btn-yellow, .btn-red { padding: 8px 16px; font-size: 14px; }
+
+  .custom-indicators {
+    display: none;
+  }
+
+  /* ABOUT-US SECTION */
+  .about-box {
+    padding: 1rem;
+    border-left: none;
+    border-radius: 0.5rem;
+  }
+
+  .image-wrapper img {
+    width: 100%;
+    height: auto;
+  }
+
+  /* COUNTER SECTION */
+  .-counter-area {
+    height: auto;
+    padding: 40px 15px;
+  }
+
+  .counter-row {
+    flex-direction: column;
+  }
+
+  .single-fact-counter {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .count-box { font-size: 24px; }
+  .text { font-size: 14px; }
+
+  /* VIDEO HOLDER */
+  .video-holder-box {
+    width: 100%;
+    position: static;
+    transform: none;
+    margin-top: 20px;
+  }
+
+  /* MISSION / VISION / CULTURE */
+  .mission-section {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .left-image, .right-content {
+    width: 100%;
+    height: auto;
+    margin-top: 0;
+    left: 0;
+  }
+
+  .right-content {
+    margin-top: 20px;
+    padding: 20px;
+  }
+
+  /* CORE COMPONENTS & PUBLICATIONS */
+  .our-model-section, .publications-section {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .model-card, .publication-card {
+    width: 100%;
+    height: auto;
+  }
+
+  /* FOOTPRINT / MAP SECTION */
+  #footprint {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .map-container {
+    flex-direction: column;
+  }
+
+  .location-list {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid #ddd;
+  }
+
+  /* PARTNER SECTION */
+  .partner-section {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 20px;
+  }
+
+  .partner-header {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .partner-text {
+    text-align: center;
+  }
+
+  .partner-logos {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  /* NEWS & HAPPENINGS */
+  .news-cards {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .news-card img { height: auto; }
+
+  /* CONTACT SECTION */
+  .contact-wrapper {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* TEAM SECTIONS */
+  .team-card, .our-team-card {
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+  }
+
+  .image-info {
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+
+  .bio, .our-bio {
+    text-align: center;
+  }
+
+  .our-team-container {
+    flex-direction: column;
+  }
+
+  /* FOOTER */
+  .footer-columns {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
