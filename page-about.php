@@ -120,6 +120,64 @@ get_header();
     </div>
 </section>
 
+<section id="timeline" class="container px-4 py-5">
+    <header class="text-center mb-5">
+        <p class="text-danger fs-6 fst-italic"><?php echo esc_html(get_theme_mod('nhn_timeline_subtitle', 'MAJOR MILESTONE WE GRAB')); ?></p>
+        <h1 class="display-4 fw-bold text-dark"><?php echo esc_html(get_theme_mod('nhn_timeline_title', 'NHN Timeline')); ?></h1>
+    </header>
+
+    <ul class="timeline">
+        <?php
+        $timeline_count = get_theme_mod('nhn_timeline_count', 3);
+        for ($i = 1; $i <= $timeline_count; $i++):
+            $date = get_theme_mod("nhn_timeline_date_$i");
+            $title = get_theme_mod("nhn_timeline_title_$i");
+            $descr = get_theme_mod("nhn_timeline_descr_$i");
+            $color = get_theme_mod("nhn_timeline_color_$i", "#41516C");
+        ?>
+        <li class="timeline-item" style="--accent-color: <?php echo esc_attr($color); ?>; --bgColor: #fff;">
+            <div class="date"><?php echo esc_html($date); ?></div>
+            <div class="title"><?php echo esc_html($title); ?></div>
+            <div class="descr"><?php echo esc_html($descr); ?></div>
+        </li>
+        <?php endfor; ?>
+    </ul>
+</section>
+<header class="text-center mb-5">
+  <p class="text-danger fs-6 fst-italic">Where we are:</p>
+  <h1 class="display-4 fw-bold text-dark">NHN Footprint</h1>
+</header>
+
+<div id="map"></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    if (typeof L !== 'undefined' && nhnMapData.sites.length > 0) {
+        // Initialize Map
+        var map = L.map('map').setView([28.3949, 84.1240], 7); // Center Nepal
+
+        // Load OpenStreetMap Tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Add Pins with Names
+        nhnMapData.sites.forEach(function(site) {
+            if(site.lat && site.lng) {
+                L.marker([site.lat, site.lng])
+                    .addTo(map)
+                    .bindPopup("<b>" + site.name + "</b>")
+                    .bindTooltip(site.name, { 
+                        permanent: true, 
+                        direction: "top", 
+                        offset: [0, -10] 
+                    }); 
+            }
+        });
+    }
+});
+</script>
+
 <style>
 /*** 
 =============================================
@@ -245,6 +303,144 @@ get_header();
 .about-style2_image-box img{
     width: 100%;
 }
+
+/* timeline  */
+.timeline {
+  --col-gap: 2rem;
+  --row-gap: 2rem;
+  --line-w: 0.25rem;
+  display: grid;
+  grid-template-columns: var(--line-w) 1fr;
+  grid-auto-columns: max-content;
+  column-gap: var(--col-gap);
+  list-style: none;
+  width: min(60rem, 90%);
+  margin-inline: auto;
+}
+
+.timeline::before {
+  content: "";
+  grid-column: 1;
+  grid-row: 1 / span 20;
+  background: rgb(225, 225, 225);
+  border-radius: calc(var(--line-w) / 2);
+}
+
+.timeline-item:not(:last-child) {
+  margin-bottom: var(--row-gap);
+}
+
+.timeline-item {
+  grid-column: 2;
+  --inlineP: 1.5rem;
+  margin-inline: var(--inlineP);
+  grid-row: span 2;
+  display: grid;
+  grid-template-rows: min-content min-content min-content;
+}
+
+.timeline-item .date {
+  --dateH: 3rem;
+  height: var(--dateH);
+  margin-inline: calc(var(--inlineP) * -1);
+  text-align: center;
+  background-color: var(--accent-color);
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 700;
+  display: grid;
+  place-content: center;
+  position: relative;
+  border-radius: calc(var(--dateH) / 2) 0 0 calc(var(--dateH) / 2);
+}
+
+.timeline-item .date::before {
+  content: "";
+  width: var(--inlineP);
+  aspect-ratio: 1;
+  background: var(--accent-color);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.2) 100%, transparent);
+  position: absolute;
+  top: 100%;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+  right: 0;
+}
+
+.timeline-item .date::after {
+  content: "";
+  position: absolute;
+  width: 2rem;
+  aspect-ratio: 1;
+  background: var(--bgColor);
+  border: 0.3rem solid var(--accent-color);
+  border-radius: 50%;
+  top: 50%;
+  transform: translate(50%, -50%);
+  right: calc(100% + var(--col-gap) + var(--line-w) / 2);
+}
+
+.timeline-item .title,
+.timeline-item .descr {
+  background: var(--bgColor);
+  position: relative;
+  padding-inline: 1.5rem;
+}
+.timeline-item .title {
+  overflow: hidden;
+  padding-block-start: 1.5rem;
+  padding-block-end: 1rem;
+  font-weight: 500;
+}
+.timeline-item .descr {
+  padding-block-end: 1.5rem;
+  font-weight: 300;
+}
+
+.timeline-item .title::before,
+
+.timeline-item .title::before {
+  bottom: calc(100% + 0.125rem);
+}
+.timeline-item .descr::before {
+  z-index: -1;
+  bottom: 0.25rem;
+}
+
+@media (min-width: 40rem) {
+  .timeline {
+    grid-template-columns: 1fr var(--line-w) 1fr;
+  }
+  .timeline::before {
+    grid-column: 2;
+  }
+  .timeline-item:nth-child(odd) {
+    grid-column: 1;
+  }
+  .timeline-item:nth-child(even) {
+    grid-column: 3;
+  }
+  .timeline-item:nth-child(2) {
+    grid-row: 2/4;
+  }
+  .timeline-item:nth-child(odd) .date::before {
+    clip-path: polygon(0 0, 100% 0, 100% 100%);
+    left: 0;
+  }
+  .timeline-item:nth-child(odd) .date::after {
+    transform: translate(-50%, -50%);
+    left: calc(100% + var(--col-gap) + var(--line-w) / 2);
+  }
+  .timeline-item:nth-child(odd) .date {
+    border-radius: 0 calc(var(--dateH) / 2) calc(var(--dateH) / 2) 0;
+  }
+}
+/* map */
+#map {
+    width: 80%;       /* 100% - 10% left - 10% right = 80% */
+    height: 500px;
+    margin: 0 auto;   /* centers it horizontally */
+}
+
 </style>
 
 <?php get_footer(); ?>

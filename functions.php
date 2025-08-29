@@ -1077,7 +1077,120 @@ function nhn_customize_register_about( $wp_customize ) {
         'type'    => 'textarea',
     ));
 
+    // Section for Timeline
+    $wp_customize->add_section('nhn_timeline_section', array(
+        'title' => __('Timeline Settings', 'nhn'),
+        'panel' => 'nhn_about_panel',
+        'priority' => 10,
+    ));
+
+    // Number of timeline items
+    $wp_customize->add_setting('nhn_timeline_count', array(
+        'default' => 3,
+        'sanitize_callback' => 'absint',
+    ));
+
+    $wp_customize->add_control('nhn_timeline_count', array(
+        'label' => __('Number of Timeline Items', 'nhn'),
+        'section' => 'nhn_timeline_section',
+        'type' => 'number',
+        'input_attrs' => array(
+            'min' => 1,
+            'max' => 20,
+        ),
+    ));
+
+    // ========Dynamic fields for each timeline item ======== 
+    // Dynamic fields for each timeline item
+    $timeline_count = get_theme_mod('nhn_timeline_count', 3);
+    for ($i = 1; $i <= $timeline_count; $i++) {
+
+        // Date
+        $wp_customize->add_setting("nhn_timeline_date_$i", array(
+            'default' => "20$i",
+            'sanitize_callback' => 'sanitize_text_field',
+        ));
+        $wp_customize->add_control("nhn_timeline_date_$i", array(
+            'label' => __("Timeline #$i Date", 'nhn'),
+            'section' => 'nhn_timeline_section',
+            'type' => 'text',
+        ));
+
+        // Title
+        $wp_customize->add_setting("nhn_timeline_title_$i", array(
+            'default' => "Timeline Event $i",
+            'sanitize_callback' => 'sanitize_text_field',
+        ));
+        $wp_customize->add_control("nhn_timeline_title_$i", array(
+            'label' => __("Timeline #$i Title", 'nhn'),
+            'section' => 'nhn_timeline_section',
+            'type' => 'text',
+        ));
+
+        // Description
+        $wp_customize->add_setting("nhn_timeline_descr_$i", array(
+            'default' => "Description for timeline event $i",
+            'sanitize_callback' => 'sanitize_textarea_field',
+        ));
+        $wp_customize->add_control("nhn_timeline_descr_$i", array(
+            'label' => __("Timeline #$i Description", 'nhn'),
+            'section' => 'nhn_timeline_section',
+            'type' => 'textarea',
+        ));
+
+        // Accent Color
+        $wp_customize->add_setting("nhn_timeline_color_$i", array(
+            'default' => "#41516C",
+            'sanitize_callback' => 'sanitize_hex_color',
+        ));
+        $wp_customize->add_control(new WP_Customize_Color_Control(
+            $wp_customize,
+            "nhn_timeline_color_$i",
+            array(
+                'label' => __("Timeline #$i Accent Color", 'nhn'),
+                'section' => 'nhn_timeline_section',
+            )
+        ));
+    }
+
+    // === Add Customizer Section for Map Locations ===
+
+    $wp_customize->add_section('nhn_map_section', array(
+        'title'    => __('Map Locations', 'nhn'),
+        'priority' => 30,
+    ));
+
+    // JSON field to store sites (admin enters JSON)
+    $wp_customize->add_setting('nhn_map_sites', array(
+        'default' => '[]',
+        'sanitize_callback' => 'wp_kses_post'
+    ));
+
+    $wp_customize->add_control('nhn_map_sites', array(
+        'label'       => __('Hospital Locations (JSON Format)', 'nhn'),
+        'description' => __('Enter sites as JSON: 
+[
+ {"name":"Bayalpata Hospital","lat":29.225,"lng":81.198},
+ {"name":"KTM Hospital","lat":27.7172,"lng":85.3240}
+]', 'nhn'),
+        'section'     => 'nhn_map_section',
+        'type'        => 'textarea',
+    ));
+
 }
 add_action('customize_register', 'nhn_customize_register_about');
+
+// === Enqueue Leaflet.js ===
+function nhn_enqueue_leaflet() {
+    wp_enqueue_style('leaflet-css', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css');
+    wp_enqueue_script('leaflet-js', 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', array(), null, true);
+
+    // Pass PHP data (Customizer JSON) to JS
+    $sites = get_theme_mod('nhn_map_sites', '[]');
+    wp_localize_script('leaflet-js', 'nhnMapData', array(
+        'sites' => json_decode($sites, true)
+    ));
+}
+add_action('wp_enqueue_scripts', 'nhn_enqueue_leaflet');
 
 
