@@ -938,9 +938,14 @@ function nhn_customize_register_about( $wp_customize ) {
         'priority'    => 20,
     ));
 
-    // === Section: About Content ===
+    /**
+     * ======================
+     * Section 1: About Content
+     * ======================
+     */
     $wp_customize->add_section('nhn_about_section', array(
         'title'    => __('About Content', 'nhn'),
+        'priority' => 10,
         'panel'    => 'nhn_about_panel',
     ));
 
@@ -987,7 +992,7 @@ function nhn_customize_register_about( $wp_customize ) {
         'section'  => 'nhn_about_section',
     )));
 
-    // === Counter 1 ===
+    // Example Counter (repeat same pattern for counter2,3 etc.)
     $wp_customize->add_setting('nhn_counter1_icon', array(
         'default' => 'https://loveicon.smartdemowp.com/wp-content/uploads/2021/06/world.png',
     ));
@@ -1032,64 +1037,21 @@ function nhn_customize_register_about( $wp_customize ) {
         'type'    => 'textarea',
     ));
 
-    // === Counter 2 ===
-    $wp_customize->add_setting('nhn_counter2_icon', array(
-        'default' => 'https://loveicon.smartdemowp.com/wp-content/uploads/2021/06/doller.png',
-    ));
-    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'nhn_counter2_icon', array(
-        'label'    => __('Counter 2 Icon', 'nhn'),
-        'section'  => 'nhn_about_section',
-    )));
-
-    $wp_customize->add_setting('nhn_counter2_number', array(
-        'default' => '5',
-    ));
-    $wp_customize->add_control('nhn_counter2_number', array(
-        'label'   => __('Counter 2 Number', 'nhn'),
-        'section' => 'nhn_about_section',
-        'type'    => 'text',
-    ));
-
-    $wp_customize->add_setting('nhn_counter2_suffix', array(
-        'default' => 'm',
-    ));
-    $wp_customize->add_control('nhn_counter2_suffix', array(
-        'label'   => __('Counter 2 Suffix', 'nhn'),
-        'section' => 'nhn_about_section',
-        'type'    => 'text',
-    ));
-
-    $wp_customize->add_setting('nhn_counter2_title', array(
-        'default' => 'Finished Projects',
-    ));
-    $wp_customize->add_control('nhn_counter2_title', array(
-        'label'   => __('Counter 2 Title', 'nhn'),
-        'section' => 'nhn_about_section',
-        'type'    => 'text',
-    ));
-
-    $wp_customize->add_setting('nhn_counter2_desc', array(
-        'default' => 'Donate money to build more healthcare and make primary care more accessible.',
-    ));
-    $wp_customize->add_control('nhn_counter2_desc', array(
-        'label'   => __('Counter 2 Description', 'nhn'),
-        'section' => 'nhn_about_section',
-        'type'    => 'textarea',
-    ));
-
-    // Section for Timeline
+    /**
+     * ======================
+     * Section 2: Timeline Settings
+     * ======================
+     */
     $wp_customize->add_section('nhn_timeline_section', array(
-        'title' => __('Timeline Settings', 'nhn'),
-        'panel' => 'nhn_about_panel',
-        'priority' => 10,
+        'title'    => __('Timeline Settings', 'nhn'),
+        'priority' => 20,
+        'panel'    => 'nhn_about_panel',
     ));
 
-    // Number of timeline items
     $wp_customize->add_setting('nhn_timeline_count', array(
         'default' => 3,
         'sanitize_callback' => 'absint',
     ));
-
     $wp_customize->add_control('nhn_timeline_count', array(
         'label' => __('Number of Timeline Items', 'nhn'),
         'section' => 'nhn_timeline_section',
@@ -1100,12 +1062,9 @@ function nhn_customize_register_about( $wp_customize ) {
         ),
     ));
 
-    // ========Dynamic fields for each timeline item ======== 
-    // Dynamic fields for each timeline item
+    // Loop dynamic timeline items
     $timeline_count = get_theme_mod('nhn_timeline_count', 3);
     for ($i = 1; $i <= $timeline_count; $i++) {
-
-        // Date
         $wp_customize->add_setting("nhn_timeline_date_$i", array(
             'default' => "20$i",
             'sanitize_callback' => 'sanitize_text_field',
@@ -1116,7 +1075,6 @@ function nhn_customize_register_about( $wp_customize ) {
             'type' => 'text',
         ));
 
-        // Title
         $wp_customize->add_setting("nhn_timeline_title_$i", array(
             'default' => "Timeline Event $i",
             'sanitize_callback' => 'sanitize_text_field',
@@ -1127,7 +1085,6 @@ function nhn_customize_register_about( $wp_customize ) {
             'type' => 'text',
         ));
 
-        // Description
         $wp_customize->add_setting("nhn_timeline_descr_$i", array(
             'default' => "Description for timeline event $i",
             'sanitize_callback' => 'sanitize_textarea_field',
@@ -1138,7 +1095,6 @@ function nhn_customize_register_about( $wp_customize ) {
             'type' => 'textarea',
         ));
 
-        // Accent Color
         $wp_customize->add_setting("nhn_timeline_color_$i", array(
             'default' => "#41516C",
             'sanitize_callback' => 'sanitize_hex_color',
@@ -1153,19 +1109,21 @@ function nhn_customize_register_about( $wp_customize ) {
         ));
     }
 
-    // === Add Customizer Section for Map Locations ===
-
+    /**
+     * ======================
+     * Section 3: Map Locations
+     * ======================
+     */
     $wp_customize->add_section('nhn_map_section', array(
         'title'    => __('Map Locations', 'nhn'),
         'priority' => 30,
+        'panel'    => 'nhn_about_panel',
     ));
 
-    // JSON field to store sites (admin enters JSON)
     $wp_customize->add_setting('nhn_map_sites', array(
         'default' => '[]',
         'sanitize_callback' => 'wp_kses_post'
     ));
-
     $wp_customize->add_control('nhn_map_sites', array(
         'label'       => __('Hospital Locations (JSON Format)', 'nhn'),
         'description' => __('Enter sites as JSON: 
@@ -1179,6 +1137,7 @@ function nhn_customize_register_about( $wp_customize ) {
 
 }
 add_action('customize_register', 'nhn_customize_register_about');
+
 
 // === Enqueue Leaflet.js ===
 function nhn_enqueue_leaflet() {
