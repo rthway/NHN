@@ -1218,6 +1218,62 @@ function nhn_customize_register_team($wp_customize) {
             'settings' => "nhn_team_image_$i",
         )));
     }
+    // === Section: Our Team Members under Team Page Settings panel ===
+    $wp_customize->add_section('nhn_our_team_section', array(
+        'title'       => __('Our Team Members', 'nhn'),
+        'panel'       => 'nhn_team_panel', // assign to existing panel
+        'priority'    => 2, // priority after Board Members (which is 1)
+    ));
+
+    // Number of Our Team Members
+    $wp_customize->add_setting('nhn_our_team_count', array(
+        'default'           => 3,
+        'sanitize_callback' => 'absint',
+    ));
+
+    $wp_customize->add_control('nhn_our_team_count', array(
+        'label'       => __('Number of Our Team Members', 'nhn'),
+        'section'     => 'nhn_our_team_section',
+        'type'        => 'number',
+        'input_attrs' => array(
+            'min' => 1,
+            'max' => 20,
+        ),
+    ));
+
+    // Get current number of members
+    $our_team_count = get_theme_mod('nhn_our_team_count', 3);
+
+    // Dynamically create fields for each team member
+    for ($i = 1; $i <= $our_team_count; $i++) {
+        // Settings
+        $wp_customize->add_setting("nhn_our_team_name_$i", array('sanitize_callback' => 'sanitize_text_field'));
+        $wp_customize->add_setting("nhn_our_team_position_$i", array('sanitize_callback' => 'sanitize_text_field'));
+        $wp_customize->add_setting("nhn_our_team_bio_$i", array('sanitize_callback' => 'wp_kses_post'));
+        $wp_customize->add_setting("nhn_our_team_image_$i", array('sanitize_callback' => 'esc_url'));
+
+        // Controls
+        $wp_customize->add_control("nhn_our_team_name_$i", array(
+            'label'    => "Our Team Member $i Name",
+            'section'  => 'nhn_our_team_section',
+            'type'     => 'text',
+        ));
+        $wp_customize->add_control("nhn_our_team_position_$i", array(
+            'label'    => "Our Team Member $i Position",
+            'section'  => 'nhn_our_team_section',
+            'type'     => 'text',
+        ));
+        $wp_customize->add_control("nhn_our_team_bio_$i", array(
+            'label'    => "Our Team Member $i Bio",
+            'section'  => 'nhn_our_team_section',
+            'type'     => 'textarea',
+        ));
+        $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, "nhn_our_team_image_$i", array(
+            'label'    => "Our Team Member $i Photo",
+            'section'  => 'nhn_our_team_section',
+            'settings' => "nhn_our_team_image_$i",
+        )));
+    }
 
 }
 add_action('customize_register', 'nhn_customize_register_team');
