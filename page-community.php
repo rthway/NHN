@@ -67,7 +67,7 @@ get_header(); ?>
 <!-- Gallery Section -->
 <section class="hospital-care-gallery">
   <div class="container">
-    <h2 class="display-4 fw-bold text-dark text-center">Community Care Dashboard</h2>
+    <h2 class="display-4 fw-bold text-dark text-center">Community Dashboard</h2>
     <div class="gallery-grid">
       <?php for ($i = 1; $i <= 10; $i++) : 
         $img     = get_theme_mod("community_gallery_image_$i");
@@ -97,3 +97,251 @@ get_header(); ?>
 <?php get_footer(); ?>
 
 <!-- Reuse same styles and scripts as Hospital Based Care page -->
+<style>
+    /* =============================
+   Community Based Care Styles
+   ============================= */
+
+/* Reset */
+* {margin:0; padding:0; box-sizing:border-box;}
+
+/* Hero Section */
+.ehr-hero {
+  font-family: 'Segoe UI', sans-serif;
+  padding: 60px 20px;
+  background: #f9f9f9;
+}
+.digital-container {
+  max-width: 1200px;
+  margin: auto;
+}
+.ehr-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+.ehr-text {
+  flex: 1;
+  min-width: 300px;
+  padding: 20px;
+}
+.ehr-text h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+.ehr-text p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  color: #444;
+  max-width: 600px;
+}
+.demo-btn {
+  display: inline-block;
+  padding: 12px 25px;
+  background: #002244;
+  color: #fff;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.3s;
+}
+.demo-btn:hover {
+  background: #003366;
+}
+.ehr-video iframe {
+  width: 600px;
+  max-width: 640px;
+  height: 360px;
+  border: none;
+  border-radius: 10px;
+}
+
+/* Program Sections */
+.hospital-section {
+  padding: 60px 0;
+}
+.hospital-img-top {
+  height: 450px;
+  object-fit: cover;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+.hospital-img-bottom {
+  height: 300px;
+  object-fit: cover;
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+.hospital-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+}
+.hospital-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #007bff;
+  margin-bottom: 15px;
+  border-left: 5px solid #007bff;
+  padding-left: 10px;
+}
+.hospital-text p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #444;
+  text-align: justify;
+}
+
+/* Gallery Section */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+.gallery-item {
+  background: #fff;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+.gallery-item:hover {
+  transform: scale(1.02);
+}
+.gallery-item img {
+  width: 100%;
+  height: 200px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.gallery-item p {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 0.95em;
+  color: #555;
+}
+
+/* Lightbox Modal */
+.lightbox {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  text-align: center;
+  padding-top: 60px;
+  color: #fff;
+}
+.lightbox-content {
+  max-width: 90%;
+  max-height: 70vh;
+  border-radius: 8px;
+}
+.lightbox-close {
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.lightbox-close:hover {
+  color: #ccc;
+}
+.lightbox-desc {
+  margin-top: 20px;
+  font-size: 1.1em;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .ehr-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  .ehr-video iframe {
+    width: 100%;
+    height: auto;
+  }
+}
+@media (max-width: 500px) {
+  h2.hospital-title {
+    font-size: 1.5em;
+  }
+  .lightbox-close {
+    font-size: 30px;
+    right: 20px;
+  }
+}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const popupImages = document.querySelectorAll('.popup-img');
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxDesc = document.getElementById('lightbox-desc');
+  const closeBtn = document.querySelector('.lightbox-close');
+
+  if (!popupImages.length) return;
+
+  // Build array of images and descriptions
+  const images = Array.from(popupImages).map(img => ({
+    src: img.dataset.large,
+    desc: img.dataset.desc
+  }));
+
+  let currentIndex = 0;
+
+  // Open lightbox
+  function openLightbox(index) {
+    currentIndex = index;
+    lightboxImg.src = images[currentIndex].src;
+    lightboxDesc.textContent = images[currentIndex].desc;
+    lightbox.style.display = 'block';
+  }
+
+  // Close lightbox
+  function closeLightbox() {
+    lightbox.style.display = 'none';
+    lightboxImg.src = '';
+  }
+
+  // Click on gallery image
+  popupImages.forEach((img, index) => {
+    img.addEventListener('click', () => openLightbox(index));
+  });
+
+  // Click on close button
+  closeBtn.addEventListener('click', closeLightbox);
+
+  // Click outside image closes lightbox
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  // Keyboard navigation
+  window.addEventListener('keydown', (e) => {
+    if (lightbox.style.display === 'block') {
+      if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % images.length;
+        openLightbox(currentIndex);
+      } else if (e.key === 'ArrowLeft') {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        openLightbox(currentIndex);
+      } else if (e.key === 'Escape') {
+        closeLightbox();
+      }
+    }
+  });
+});
+</script>

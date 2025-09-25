@@ -1477,3 +1477,77 @@ function nhn_customize_hospital_gallery($wp_customize) {
     }
 }
 add_action('customize_register', 'nhn_customize_hospital_gallery');
+
+// ===========================
+// Customizer Settings for Community Based Care
+// ===========================
+function community_customize_register($wp_customize) {
+
+    // Hero Section
+    $wp_customize->add_section('community_hero_section', array(
+        'title'    => __('Community Hero Section', 'theme_textdomain'),
+        'priority' => 30,
+    ));
+
+    $wp_customize->add_setting('community_heading1', array('default' => 'Community Based Care', 'sanitize_callback' => 'sanitize_text_field'));
+    $wp_customize->add_control('community_heading1', array('label' => 'Heading 1', 'section' => 'community_hero_section', 'type' => 'text'));
+
+    $wp_customize->add_setting('community_heading2', array('default' => 'Quality Healthcare in Your Community', 'sanitize_callback' => 'sanitize_text_field'));
+    $wp_customize->add_control('community_heading2', array('label' => 'Heading 2', 'section' => 'community_hero_section', 'type' => 'text'));
+
+    $wp_customize->add_setting('community_description', array('default' => '', 'sanitize_callback' => 'wp_kses_post'));
+    $wp_customize->add_control('community_description', array('label' => 'Description', 'section' => 'community_hero_section', 'type' => 'textarea'));
+
+    $wp_customize->add_setting('community_button_text', array('default' => 'Learn More', 'sanitize_callback' => 'sanitize_text_field'));
+    $wp_customize->add_control('community_button_text', array('label' => 'Button Text', 'section' => 'community_hero_section', 'type' => 'text'));
+
+    $wp_customize->add_setting('community_button_link', array('default' => '#', 'sanitize_callback' => 'esc_url'));
+    $wp_customize->add_control('community_button_link', array('label' => 'Button Link', 'section' => 'community_hero_section', 'type' => 'url'));
+
+    $wp_customize->add_setting('community_video_url', array('default' => '', 'sanitize_callback' => 'esc_url'));
+    $wp_customize->add_control('community_video_url', array('label' => 'Video URL', 'section' => 'community_hero_section', 'type' => 'url'));
+
+    // Programs Section
+    for ($i = 1; $i <= 2; $i++) {
+        $wp_customize->add_section("community_program{$i}_section", array(
+            'title' => "Community Program $i",
+            'priority' => 31 + $i,
+        ));
+
+        $wp_customize->add_setting("community_program{$i}_title", array('default' => "Program $i", 'sanitize_callback' => 'sanitize_text_field'));
+        $wp_customize->add_control("community_program{$i}_title", array('label' => "Program $i Title", 'section' => "community_program{$i}_section", 'type' => 'text'));
+
+        $wp_customize->add_setting("community_program{$i}_desc", array('default' => '', 'sanitize_callback' => 'wp_kses_post'));
+        $wp_customize->add_control("community_program{$i}_desc", array('label' => "Program $i Description", 'section' => "community_program{$i}_section", 'type' => 'textarea'));
+
+        $wp_customize->add_setting("community_program{$i}_image", array('default' => '', 'sanitize_callback' => 'esc_url'));
+        $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, "community_program{$i}_image", array(
+            'label' => "Program $i Image",
+            'section' => "community_program{$i}_section",
+        )));
+    }
+
+    // Gallery Section
+    $wp_customize->add_section('community_gallery_section', array(
+        'title' => 'Community Gallery',
+        'priority' => 40,
+    ));
+
+    for ($i = 1; $i <= 10; $i++) {
+        $wp_customize->add_setting("community_gallery_image_$i", array('default' => '', 'sanitize_callback' => 'esc_url'));
+        $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, "community_gallery_image_$i", array(
+            'label' => "Gallery Image $i",
+            'section' => 'community_gallery_section',
+        )));
+
+        $wp_customize->add_setting("community_gallery_large_$i", array('default' => '', 'sanitize_callback' => 'esc_url'));
+        $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, "community_gallery_large_$i", array(
+            'label' => "Gallery Large Image $i",
+            'section' => 'community_gallery_section',
+        )));
+
+        $wp_customize->add_setting("community_gallery_desc_$i", array('default' => '', 'sanitize_callback' => 'sanitize_text_field'));
+        $wp_customize->add_control("community_gallery_desc_$i", array('label' => "Gallery Image $i Description", 'section' => 'community_gallery_section', 'type' => 'text'));
+    }
+}
+add_action('customize_register', 'community_customize_register');
