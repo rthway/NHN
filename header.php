@@ -30,13 +30,19 @@
         <meta name="twitter:image" content="<?php echo get_template_directory_uri(); ?>/images/logo-01.png">
     <?php endif; ?>
 
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
     <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
 
 <!-- Top Bar -->
 <div class="top-bar bg-primary text-white py-2">
-    <div class="container d-flex justify-content-between align-items-center">
+    <div class="container d-flex justify-content-between align-items-center flex-wrap">
         <div class="d-flex gap-2 align-items-center">
             <span><strong>Follow Us</strong></span>
             <span>|</span>
@@ -45,21 +51,27 @@
             <a href="<?php echo esc_url(get_theme_mod('nhn_social_instagram', '#')); ?>" class="text-white ms-2"><i class="bi bi-instagram"></i></a>
             <a href="<?php echo esc_url(get_theme_mod('nhn_social_youtube', '#')); ?>" class="text-white ms-2"><i class="bi bi-youtube"></i></a>
         </div>
-        <div class="d-flex gap-3 align-items-center">
-            <span><i class="bi bi-telephone-fill me-1"></i><?php echo esc_html(get_theme_mod('nhn_phone')); ?></span>
-            <span><i class="bi bi-geo-alt-fill me-1"></i><?php echo esc_html(get_theme_mod('nhn_address')); ?></span>
-            <span><i class="bi bi-globe2 me-1"></i><?php echo esc_html(get_theme_mod('nhn_language')); ?></span>
+        <div class="d-flex gap-3 align-items-center flex-wrap mt-2 mt-md-0">
+            <?php if(get_theme_mod('nhn_phone')): ?>
+                <span><i class="bi bi-telephone-fill me-1"></i><?php echo esc_html(get_theme_mod('nhn_phone')); ?></span>
+            <?php endif; ?>
+            <?php if(get_theme_mod('nhn_address')): ?>
+                <span><i class="bi bi-geo-alt-fill me-1"></i><?php echo esc_html(get_theme_mod('nhn_address')); ?></span>
+            <?php endif; ?>
+            <?php if(get_theme_mod('nhn_language')): ?>
+                <span><i class="bi bi-globe2 me-1"></i><?php echo esc_html(get_theme_mod('nhn_language')); ?></span>
+            <?php endif; ?>
         </div>
     </div>
 </div>
 
 <!-- Main Header -->
-<header class="main-header py-3">
-    <div class="container d-flex justify-content-between align-items-center">
-        <!-- Logo -->
+<header class="main-header py-3 bg-white shadow-sm">
+    <div class="container d-flex justify-content-between align-items-center flex-wrap">
+        <!-- Logo + Site Title -->
         <div class="d-flex align-items-center gap-2">
-            <a href="<?php echo home_url(); ?>">
-                <?php if (get_theme_mod('nhn_logo')): ?>
+            <a href="<?php echo esc_url(home_url()); ?>">
+                <?php if(get_theme_mod('nhn_logo')): ?>
                     <img src="<?php echo esc_url(get_theme_mod('nhn_logo')); ?>" alt="Logo" width="70" height="70">
                 <?php else: ?>
                     <img src="<?php echo get_template_directory_uri(); ?>/images/logo-01.png" alt="Logo" width="70" height="70">
@@ -73,28 +85,55 @@
 
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg p-0">
-            <?php
-            wp_nav_menu(array(
-                'theme_location' => 'primary',
-                'container' => false,
-                'menu_class' => 'navbar-nav me-lg-3',
-                'fallback_cb' => '__return_false',
-                'depth' => 2,
-                'walker' => new WP_Bootstrap_Navwalker(), // optional: use a bootstrap walker
-            ));
-            ?>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <?php
+                wp_nav_menu(array(
+                    'theme_location' => 'primary',
+                    'container' => false,
+                    'menu_class' => 'navbar-nav ms-auto',
+                    'depth' => 2,
+                    'fallback_cb' => '__return_false',
+                    'walker' => new WP_Bootstrap_Navwalker(),
+                ));
+                ?>
+            </div>
         </nav>
 
-        <!-- Donate Button & Mobile Toggle -->
-        <div class="d-flex align-items-center gap-3">
-            <a href="#" class="donate-btn btn btn-success"><i class="bi bi-check-circle-fill"></i> DONATE NOW</a>
-            <button class="navbar-toggler d-lg-none border-0 bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
-                <i class="bi bi-grid-3x3-gap-fill fs-4 text-muted"></i>
-            </button>
-        </div>
+        <!-- Donate Button -->
+        <a href="#" class="donate-btn btn btn-success ms-3"><i class="bi bi-check-circle-fill"></i> DONATE NOW</a>
     </div>
 </header>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<!-- Custom CSS -->
+<style>
+/* Disable parent link for "Who We Are" */
+.navbar-nav .menu-item-has-children > a.dropdown-toggle {
+    pointer-events: none;
+    cursor: default;
+}
+
+/* Desktop hover dropdown */
+@media (min-width: 992px) {
+    .navbar-nav .menu-item-has-children:hover > .dropdown-menu {
+        display: block;
+    }
+}
+
+/* Dropdown arrow */
+.navbar-nav .menu-item-has-children > a.dropdown-toggle::after {
+    content: ' ▼';
+    font-size: 0.6em;
+    margin-left: 5px;
+}
+</style>
+
+<?php wp_body_open(); ?>
