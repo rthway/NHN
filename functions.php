@@ -1280,4 +1280,200 @@ add_action('customize_register', 'nhn_customize_register_team');
 
 
 
+// ===========================
+// Customizer Settings: Facility Based Care (NHN Theme)
+// ===========================
+function nhn_customize_facility_based_care($wp_customize) {
 
+    // Main Section
+    $wp_customize->add_section('facility_based_care_section', array(
+        'title'    => __('Facility Based Care', 'nhn'),
+        'priority' => 40,
+    ));
+
+    // Hero Heading 1
+    $wp_customize->add_setting('facility_heading1', array(
+        'default' => 'Hospital Based Healthcare',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+    $wp_customize->add_control('facility_heading1', array(
+        'label'   => __('Heading 1', 'nhn'),
+        'section' => 'facility_based_care_section',
+        'type'    => 'text'
+    ));
+
+    // Hero Heading 2
+    $wp_customize->add_setting('facility_heading2', array(
+        'default' => 'Free Healthcare for All',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+    $wp_customize->add_control('facility_heading2', array(
+        'label'   => __('Heading 2', 'nhn'),
+        'section' => 'facility_based_care_section',
+        'type'    => 'text'
+    ));
+
+    // Description
+    $wp_customize->add_setting('facility_description', array(
+        'default' => 'Bayalpata delivers low-cost, high-quality care...',
+        'sanitize_callback' => 'wp_kses_post'
+    ));
+    $wp_customize->add_control('facility_description', array(
+        'label'   => __('Description', 'nhn'),
+        'section' => 'facility_based_care_section',
+        'type'    => 'textarea'
+    ));
+
+    // Button Text
+    $wp_customize->add_setting('facility_button_text', array(
+        'default' => 'Donate',
+        'sanitize_callback' => 'sanitize_text_field'
+    ));
+    $wp_customize->add_control('facility_button_text', array(
+        'label'   => __('Button Text', 'nhn'),
+        'section' => 'facility_based_care_section',
+        'type'    => 'text'
+    ));
+
+    // Button Link
+    $wp_customize->add_setting('facility_button_link', array(
+        'default' => '#',
+        'sanitize_callback' => 'esc_url_raw'
+    ));
+    $wp_customize->add_control('facility_button_link', array(
+        'label'   => __('Button Link', 'nhn'),
+        'section' => 'facility_based_care_section',
+        'type'    => 'url'
+    ));
+
+    // Video URL
+    $wp_customize->add_setting('facility_video_url', array(
+        'default' => 'https://www.youtube.com/embed/UR6n7KPfH84',
+        'sanitize_callback' => 'esc_url_raw'
+    ));
+    $wp_customize->add_control('facility_video_url', array(
+        'label'   => __('Video URL (YouTube Embed)', 'nhn'),
+        'section' => 'facility_based_care_section',
+        'type'    => 'url'
+    ));
+}
+add_action('customize_register', 'nhn_customize_facility_based_care');
+
+
+// ===========================
+// Customizer Settings: Hospital Sections (NHN)
+// ===========================
+function nhn_customize_hospital_sections($wp_customize) {
+
+    // Panel for Hospitals
+    $wp_customize->add_section('nhn_hospitals_section', array(
+        'title'    => __('Hospitals Section', 'nhn'),
+        'priority' => 45,
+    ));
+
+    // ========================
+    // Bayalpata Hospital
+    // ========================
+    $wp_customize->add_setting('bayalpata_image', array(
+        'default' => 'https://via.placeholder.com/600x450',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'bayalpata_image', array(
+        'label'    => __('Bayalpata Hospital Image', 'nhn'),
+        'section'  => 'nhn_hospitals_section',
+        'settings' => 'bayalpata_image',
+    )));
+
+    $wp_customize->add_setting('bayalpata_title', array(
+        'default' => 'Bayalpata Hospital',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('bayalpata_title', array(
+        'label'   => __('Bayalpata Hospital Title', 'nhn'),
+        'section' => 'nhn_hospitals_section',
+        'type'    => 'text',
+    ));
+
+    $wp_customize->add_setting('bayalpata_desc', array(
+        'default' => 'Bayalpata Hospital provides high-quality, affordable healthcare...',
+        'sanitize_callback' => 'wp_kses_post',
+    ));
+    $wp_customize->add_control('bayalpata_desc', array(
+        'label'   => __('Bayalpata Hospital Description', 'nhn'),
+        'section' => 'nhn_hospitals_section',
+        'type'    => 'textarea',
+    ));
+
+    // ========================
+    // Charikot Hospital
+    // ========================
+    $wp_customize->add_setting('charikot_image', array(
+        'default' => 'https://via.placeholder.com/600x300',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'charikot_image', array(
+        'label'    => __('Charikot Hospital Image', 'nhn'),
+        'section'  => 'nhn_hospitals_section',
+        'settings' => 'charikot_image',
+    )));
+
+    $wp_customize->add_setting('charikot_title', array(
+        'default' => 'Charikot Hospital',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+    $wp_customize->add_control('charikot_title', array(
+        'label'   => __('Charikot Hospital Title', 'nhn'),
+        'section' => 'nhn_hospitals_section',
+        'type'    => 'text',
+    ));
+
+    $wp_customize->add_setting('charikot_desc', array(
+        'default' => 'Charikot Hospital plays a vital role in providing essential care...',
+        'sanitize_callback' => 'wp_kses_post',
+    ));
+    $wp_customize->add_control('charikot_desc', array(
+        'label'   => __('Charikot Hospital Description', 'nhn'),
+        'section' => 'nhn_hospitals_section',
+        'type'    => 'textarea',
+    ));
+}
+add_action('customize_register', 'nhn_customize_hospital_sections');
+
+// ===========================
+// Customizer Settings: Hospital Care Gallery (NHN)
+// ===========================
+function nhn_customize_hospital_gallery($wp_customize) {
+
+    // Panel/Section
+    $wp_customize->add_section('hospital_gallery_section', array(
+        'title'    => __('Hospital Care Gallery', 'nhn'),
+        'priority' => 50,
+    ));
+
+    // Loop to create 10 gallery items
+    for ($i = 1; $i <= 10; $i++) {
+
+        // Gallery Image
+        $wp_customize->add_setting("gallery_image_$i", array(
+            'default' => "https://via.placeholder.com/600x400?text=EHR+$i",
+            'sanitize_callback' => 'esc_url_raw'
+        ));
+        $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, "gallery_image_$i", array(
+            'label'    => __("Gallery Image $i", 'nhn'),
+            'section'  => 'hospital_gallery_section',
+            'settings' => "gallery_image_$i",
+        )));
+
+        // Gallery Description
+        $wp_customize->add_setting("gallery_desc_$i", array(
+            'default' => "EHR Dashboard $i",
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+        $wp_customize->add_control("gallery_desc_$i", array(
+            'label'    => __("Gallery Image $i Description", 'nhn'),
+            'section'  => 'hospital_gallery_section',
+            'type'     => 'text'
+        ));
+    }
+}
+add_action('customize_register', 'nhn_customize_hospital_gallery');
