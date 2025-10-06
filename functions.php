@@ -1551,3 +1551,134 @@ function community_customize_register($wp_customize) {
     }
 }
 add_action('customize_register', 'community_customize_register');
+
+function digital_health_customize_register($wp_customize) {
+
+  // ===========================
+  // Section: Digital Health Page
+  // ===========================
+  $wp_customize->add_section('digital_health_section', array(
+    'title'       => __('Digital Health Page', 'yourtheme'),
+    'description' => __('Settings for the Digital Health page template.', 'yourtheme'),
+    'priority'    => 30,
+  ));
+
+  // ------------------------------
+  // Hero Section
+  // ------------------------------
+  $wp_customize->add_setting('digital_heading1', array('default' => 'Digital Health Transformation'));
+  $wp_customize->add_control('digital_heading1', array(
+    'label' => __('Heading Line 1', 'yourtheme'),
+    'section' => 'digital_health_section',
+    'type' => 'text'
+  ));
+
+  $wp_customize->add_setting('digital_heading2', array('default' => 'Empowering Healthcare Through Technology'));
+  $wp_customize->add_control('digital_heading2', array(
+    'label' => __('Heading Line 2', 'yourtheme'),
+    'section' => 'digital_health_section',
+    'type' => 'text'
+  ));
+
+  $wp_customize->add_setting('digital_description', array('default' => 'NepalEHR is a comprehensive, open-source electronic health record platform.'));
+  $wp_customize->add_control('digital_description', array(
+    'label' => __('Hero Description', 'yourtheme'),
+    'section' => 'digital_health_section',
+    'type' => 'textarea'
+  ));
+
+  $wp_customize->add_setting('digital_button_text', array('default' => 'Learn More'));
+  $wp_customize->add_control('digital_button_text', array(
+    'label' => __('Button Text', 'yourtheme'),
+    'section' => 'digital_health_section',
+    'type' => 'text'
+  ));
+
+  $wp_customize->add_setting('digital_button_link', array('default' => '#'));
+  $wp_customize->add_control('digital_button_link', array(
+    'label' => __('Button Link', 'yourtheme'),
+    'section' => 'digital_health_section',
+    'type' => 'url'
+  ));
+
+  $wp_customize->add_setting('digital_video_url', array('default' => 'https://www.youtube.com/embed/your-video'));
+  $wp_customize->add_control('digital_video_url', array(
+    'label' => __('YouTube Video URL', 'yourtheme'),
+    'section' => 'digital_health_section',
+    'type' => 'url'
+  ));
+
+  // =====================================================
+  // Dynamic Number Controls
+  // =====================================================
+  $wp_customize->add_setting('digital_feature_count', array('default' => 6));
+  $wp_customize->add_control('digital_feature_count', array(
+    'label' => __('Number of Key Features', 'yourtheme'),
+    'section' => 'digital_health_section',
+    'type' => 'number',
+    'input_attrs' => array('min' => 1, 'max' => 20)
+  ));
+
+  $wp_customize->add_setting('digital_site_count', array('default' => 8));
+  $wp_customize->add_control('digital_site_count', array(
+    'label' => __('Number of Implementation Sites', 'yourtheme'),
+    'section' => 'digital_health_section',
+    'type' => 'number',
+    'input_attrs' => array('min' => 1, 'max' => 20)
+  ));
+
+  // =====================================================
+  // Dynamic Fields for Key Features (up to 20)
+  // =====================================================
+  for ($i = 1; $i <= 20; $i++) {
+    $wp_customize->add_setting("digital_feature_icon_$i");
+    $wp_customize->add_control(
+      new WP_Customize_Image_Control($wp_customize, "digital_feature_icon_$i", array(
+        'label' => __("Feature $i Icon", 'yourtheme'),
+        'section' => 'digital_health_section',
+      ))
+    );
+
+    $wp_customize->add_setting("digital_feature_title_$i");
+    $wp_customize->add_control("digital_feature_title_$i", array(
+      'label' => __("Feature $i Title", 'yourtheme'),
+      'section' => 'digital_health_section',
+      'type' => 'text',
+    ));
+
+    $wp_customize->add_setting("digital_feature_desc_$i");
+    $wp_customize->add_control("digital_feature_desc_$i", array(
+      'label' => __("Feature $i Description", 'yourtheme'),
+      'section' => 'digital_health_section',
+      'type' => 'textarea',
+    ));
+  }
+
+  // =====================================================
+  // Dynamic Fields for Implementation Sites (up to 20)
+  // =====================================================
+  for ($i = 1; $i <= 20; $i++) {
+    $wp_customize->add_setting("digital_site_image_$i");
+    $wp_customize->add_control(
+      new WP_Customize_Image_Control($wp_customize, "digital_site_image_$i", array(
+        'label' => __("Site $i Image", 'yourtheme'),
+        'section' => 'digital_health_section',
+      ))
+    );
+
+    $wp_customize->add_setting("digital_site_title_$i");
+    $wp_customize->add_control("digital_site_title_$i", array(
+      'label' => __("Site $i Title", 'yourtheme'),
+      'section' => 'digital_health_section',
+      'type' => 'text',
+    ));
+
+    $wp_customize->add_setting("digital_site_location_$i");
+    $wp_customize->add_control("digital_site_location_$i", array(
+      'label' => __("Site $i Location", 'yourtheme'),
+      'section' => 'digital_health_section',
+      'type' => 'text',
+    ));
+  }
+}
+add_action('customize_register', 'digital_health_customize_register');
