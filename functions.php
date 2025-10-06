@@ -1742,3 +1742,75 @@ function contact_page_customize_register($wp_customize) {
   ));
 }
 add_action('customize_register', 'contact_page_customize_register');
+
+/**
+ * ===========================================
+ * Register Custom Post Types: Notices & Careers
+ * Theme: nhn
+ * ===========================================
+ */
+function nhn_register_custom_post_types() {
+
+  // -----------------------------
+  // Post Type: Notices
+  // -----------------------------
+  $labels_notices = array(
+    'name'                  => _x('Notices', 'Post Type General Name', 'nhn'),
+    'singular_name'         => _x('Notice', 'Post Type Singular Name', 'nhn'),
+    'menu_name'             => __('Notices', 'nhn'),
+    'name_admin_bar'        => __('Notice', 'nhn'),
+    'add_new'               => __('Add New', 'nhn'),
+    'add_new_item'          => __('Add New Notice', 'nhn'),
+    'edit_item'             => __('Edit Notice', 'nhn'),
+    'new_item'              => __('New Notice', 'nhn'),
+    'view_item'             => __('View Notice', 'nhn'),
+    'all_items'             => __('All Notices', 'nhn'),
+    'search_items'          => __('Search Notices', 'nhn'),
+    'not_found'             => __('No notices found.', 'nhn'),
+    'not_found_in_trash'    => __('No notices found in Trash.', 'nhn'),
+  );
+
+  $args_notices = array(
+    'labels'             => $labels_notices,
+    'public'             => true,
+    'has_archive'        => true,
+    'rewrite'            => array('slug' => 'notices'),
+    'menu_icon'          => 'dashicons-megaphone',
+    'supports'           => array('title', 'editor', 'excerpt', 'thumbnail', 'revisions'),
+    'show_in_rest'       => true, // enable Gutenberg + REST API
+  );
+
+  register_post_type('notice', $args_notices);
+
+  // -----------------------------
+  // Post Type: Careers
+  // -----------------------------
+  $labels_careers = array(
+    'name'                  => _x('Careers', 'Post Type General Name', 'nhn'),
+    'singular_name'         => _x('Career', 'Post Type Singular Name', 'nhn'),
+    'menu_name'             => __('Careers', 'nhn'),
+    'name_admin_bar'        => __('Career', 'nhn'),
+    'add_new'               => __('Add New', 'nhn'),
+    'add_new_item'          => __('Add New Career', 'nhn'),
+    'edit_item'             => __('Edit Career', 'nhn'),
+    'new_item'              => __('New Career', 'nhn'),
+    'view_item'             => __('View Career', 'nhn'),
+    'all_items'             => __('All Careers', 'nhn'),
+    'search_items'          => __('Search Careers', 'nhn'),
+    'not_found'             => __('No careers found.', 'nhn'),
+    'not_found_in_trash'    => __('No careers found in Trash.', 'nhn'),
+  );
+
+  $args_careers = array(
+    'labels'             => $labels_careers,
+    'public'             => true,
+    'has_archive'        => true,
+    'rewrite'            => array('slug' => 'careers'),
+    'menu_icon'          => 'dashicons-businessperson',
+    'supports'           => array('title', 'editor', 'excerpt', 'thumbnail', 'revisions'),
+    'show_in_rest'       => true,
+  );
+
+  register_post_type('career', $args_careers);
+}
+add_action('init', 'nhn_register_custom_post_types');
