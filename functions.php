@@ -1682,3 +1682,63 @@ function digital_health_customize_register($wp_customize) {
   }
 }
 add_action('customize_register', 'digital_health_customize_register');
+
+// ===========================
+// CONTACT PAGE CUSTOMIZER
+// ===========================
+function contact_page_customize_register($wp_customize) {
+  $wp_customize->add_section('contact_page_section', array(
+    'title' => __('Contact Page', 'yourtheme'),
+    'priority' => 35,
+  ));
+
+  $wp_customize->add_setting('contact_heading', array('default' => 'Get in Touch'));
+  $wp_customize->add_control('contact_heading', array(
+    'label' => __('Hero Heading', 'yourtheme'),
+    'section' => 'contact_page_section',
+    'type' => 'text',
+  ));
+
+  $wp_customize->add_setting('contact_subheading', array('default' => 'We’d love to hear from you!'));
+  $wp_customize->add_control('contact_subheading', array(
+    'label' => __('Hero Subheading', 'yourtheme'),
+    'section' => 'contact_page_section',
+    'type' => 'textarea',
+  ));
+
+  $wp_customize->add_setting('contact_address', array('default' => 'Kathmandu, Nepal'));
+  $wp_customize->add_control('contact_address', array(
+    'label' => __('Address', 'yourtheme'),
+    'section' => 'contact_page_section',
+    'type' => 'text',
+  ));
+
+  $wp_customize->add_setting('contact_email', array('default' => 'info@example.com'));
+  $wp_customize->add_control('contact_email', array(
+    'label' => __('Email', 'yourtheme'),
+    'section' => 'contact_page_section',
+    'type' => 'text',
+  ));
+
+  $wp_customize->add_setting('contact_phone', array('default' => '+977-9800000000'));
+  $wp_customize->add_control('contact_phone', array(
+    'label' => __('Phone', 'yourtheme'),
+    'section' => 'contact_page_section',
+    'type' => 'text',
+  ));
+
+  $wp_customize->add_setting('contact_form_action', array('default' => '#'));
+  $wp_customize->add_control('contact_form_action', array(
+    'label' => __('Form Action URL (Formspree or similar)', 'yourtheme'),
+    'section' => 'contact_page_section',
+    'type' => 'url',
+  ));
+
+  $wp_customize->add_setting('contact_map_iframe', array('default' => 'https://www.google.com/maps/embed?...'));
+  $wp_customize->add_control('contact_map_iframe', array(
+    'label' => __('Google Map Embed URL', 'yourtheme'),
+    'section' => 'contact_page_section',
+    'type' => 'textarea',
+  ));
+}
+add_action('customize_register', 'contact_page_customize_register');
