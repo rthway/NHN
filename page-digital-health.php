@@ -1,4 +1,4 @@
-<?php
+<?php 
 /**
  * Template Name: Digital Health
  * Description: Custom template for displaying Digital Health page with Key Features and Implementation Sites.
@@ -84,7 +84,11 @@ get_header(); ?>
 ================================ */
 
 /* Reset */
-* {margin:0; padding:0; box-sizing:border-box;}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 /* Hero Section */
 .ehr-hero {
@@ -129,7 +133,9 @@ get_header(); ?>
   text-decoration: none;
   transition: 0.3s;
 }
-.demo-btn:hover { background: #003366; }
+.demo-btn:hover {
+  background: #003366;
+}
 .ehr-video iframe {
   width: 600px;
   max-width: 100%;
@@ -163,7 +169,9 @@ get_header(); ?>
   box-shadow: 0 3px 10px rgba(0,0,0,0.1);
   transition: transform 0.3s;
 }
-.feature-card:hover { transform: translateY(-5px); }
+.feature-card:hover {
+  transform: translateY(-5px);
+}
 .feature-icon {
   width: 60px;
   height: 60px;
@@ -191,21 +199,31 @@ get_header(); ?>
   grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
   gap: 25px;
 }
+
+/* Updated Implementation Site Styles */
 .site-card {
   background: #fff;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 3px 10px rgba(0,0,0,0.1);
   transition: transform 0.3s;
+  text-align: center;
+  padding: 20px 10px;
 }
-.site-card:hover { transform: scale(1.03); }
+.site-card:hover {
+  transform: scale(1.03);
+}
 .site-img {
-  width: 100%;
-  height: 180px;
+  width: 150px;
+  height: 150px;
   object-fit: cover;
+  border-radius: 8px;
+  display: block;
+  margin: 0 auto 15px;
 }
 .site-info {
-  padding: 15px;
+  padding: 10px 0;
+  text-align: center;
 }
 .site-info h4 {
   font-size: 1.2rem;
@@ -227,6 +245,12 @@ get_header(); ?>
   .ehr-video iframe {
     width: 100%;
     height: auto;
+  }
+}
+@media (max-width: 600px) {
+  .site-img {
+    width: 120px;
+    height: 120px;
   }
 }
 @media (max-width: 500px) {
