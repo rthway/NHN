@@ -63,14 +63,7 @@
       </div>
     </div>
 
-    <!-- Comments -->
-    <div class="comments-section mt-5">
-      <?php
-      if ( comments_open() || get_comments_number() ) :
-        comments_template();
-      endif;
-      ?>
-    </div>
+    
   </div>
 </main>
 
