@@ -113,26 +113,69 @@
 <!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
+<!-- Custom JS for Mobile Dropdown Fix -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const dropdownLinks = document.querySelectorAll('.navbar-nav .menu-item-has-children > a');
+
+  dropdownLinks.forEach(link => {
+    link.addEventListener('click', function (e) {
+      if (window.innerWidth < 992) {
+        e.preventDefault();
+
+        const dropdown = this.nextElementSibling;
+        if (dropdown && dropdown.classList.contains('dropdown-menu')) {
+          dropdown.classList.toggle('show');
+        }
+      }
+    });
+  });
+
+  // Reset dropdowns when resizing back to desktop
+  window.addEventListener('resize', function () {
+    if (window.innerWidth >= 992) {
+      document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.remove('show'));
+    }
+  });
+});
+</script>
+
 <!-- Custom CSS -->
 <style>
-/* Disable parent link for "Who We Are" */
-.navbar-nav .menu-item-has-children > a.dropdown-toggle {
+/* Desktop Only: Disable parent link click & show submenu on hover */
+@media (min-width: 992px) {
+  .navbar-nav .menu-item-has-children > a.dropdown-toggle {
     pointer-events: none;
     cursor: default;
-}
+  }
 
-/* Desktop hover dropdown */
-@media (min-width: 992px) {
-    .navbar-nav .menu-item-has-children:hover > .dropdown-menu {
-        display: block;
-    }
+  .navbar-nav .menu-item-has-children:hover > .dropdown-menu {
+    display: block;
+  }
 }
 
 /* Dropdown arrow */
 .navbar-nav .menu-item-has-children > a.dropdown-toggle::after {
-    content: ' ▼';
-    font-size: 0.6em;
-    margin-left: 5px;
+  content: ' ▼';
+  font-size: 0.6em;
+  margin-left: 5px;
+}
+
+/* Mobile submenu styles */
+@media (max-width: 991px) {
+  .navbar-nav .dropdown-menu {
+    display: none;
+    position: static;
+    float: none;
+    width: 100%;
+    margin: 0;
+    padding: 0.5rem 1rem;
+    background: #f8f9fa;
+    border: none;
+  }
+  .navbar-nav .dropdown-menu.show {
+    display: block;
+  }
 }
 </style>
 
