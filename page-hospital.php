@@ -93,7 +93,7 @@ get_header(); ?>
     <div class="lightbox-desc" id="lightbox-desc"></div>
   </div>
 </section>
-
+<?php get_footer(); ?>
 <style>
 /* Reset */
 * {margin:0; padding:0; box-sizing:border-box;}
