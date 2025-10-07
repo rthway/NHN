@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /* Dropdown arrow */
 .navbar-nav .menu-item-has-children > a.dropdown-toggle::after {
-  content: ' ▼';
+  content: none;
   font-size: 0.6em;
   margin-left: 5px;
 }
